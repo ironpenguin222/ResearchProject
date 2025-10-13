@@ -25,4 +25,14 @@ public class PlayerController : MonoBehaviour
     {
         rb.MovePosition(rb.position + movementDirection * moveSpeed * Time.deltaTime); // Move player
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.CompareTag("Box"))
+        {
+            Vector2 pushDirection = movementDirection;
+            BoxController box = collision.collider.GetComponent<BoxController>();
+            box.TryPush(pushDirection);
+        }
+    }
 }
