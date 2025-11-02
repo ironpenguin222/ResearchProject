@@ -6,14 +6,18 @@ using System.IO;
 public class SaveManager : MonoBehaviour
 {
     public PlayerController player;
-    public List<BoxController> boxes = new List<BoxController>();
+    private List<ISaveable> saveableObjects = new List<ISaveable>();
 
     private void Start()
     {
-        foreach (GameObject boxObject in GameObject.FindGameObjectsWithTag("Box"))  //Finds each box in the map
+        MonoBehaviour[] gameObjects = FindObjectsOfType<MonoBehaviour>(); // Grabs all objects in scene
+
+        foreach (MonoBehaviour objects in gameObjects) 
         {
-            BoxController box = boxObject.GetComponent<BoxController>();
-            boxes.Add(box);
+            if (objects is ISaveable saveable) // Puts any object that uses Isaveable into the category
+            {
+                saveableObjects.Add(saveable);
+            }
         }
     }
 
@@ -22,14 +26,9 @@ public class SaveManager : MonoBehaviour
         SaveData data = new SaveData();
         data.playerPosition = player.transform.position;
         data.objectData.Clear();
-        foreach(BoxController box in boxes) // Saves the data for each part of the box
+        foreach(ISaveable objects in saveableObjects) // Saves the data for each component
         {
-            ObjectSaveData boxData = new ObjectSaveData();
-            boxData.type = box.tag;
-            boxData.position = box.transform.position;
-            boxData.rotation = box.transform.eulerAngles.z;
-            boxData.isActive = box.gameObject.activeSelf;
-            data.objectData.Add(boxData);
+            data.objectData.Add(objects.SaveData());
         }
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("SaveData", json);
@@ -48,14 +47,14 @@ public class SaveManager : MonoBehaviour
 
         player.transform.position = data.playerPosition;
 
-        for(int i = 0; i < boxes.Count && i < data.objectData.Count; i++)
+        int i = 0;
+       foreach (ISaveable objects in saveableObjects)
         {
-            ObjectSaveData objData = data.objectData[i];
-            BoxController box = boxes[i];
-
-            box.transform.position = objData.position;
-            box.transform.eulerAngles = new Vector3(0, 0, objData.rotation);
-            box.gameObject.SetActive(objData.isActive);
+            if(i < data.objectData.Count)
+            {
+                objects.LoadData(data.objectData[i]);
+                i++;
+            }
         }
     }
 }

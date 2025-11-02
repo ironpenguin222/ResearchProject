@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxController : MonoBehaviour
+public class BoxController : MonoBehaviour, ISaveable
 {
     public float moveDistance = 1f; // Distance moved when pushed
     public LayerMask collisionStop; // Layers that prevent box from moving past
@@ -21,5 +21,23 @@ public class BoxController : MonoBehaviour
         {
             rb.MovePosition(posToGo); // Moves it
         }
+    }
+
+    public ObjectSaveData SaveData()
+    {
+        ObjectSaveData saveData = new ObjectSaveData();
+        saveData.type = "Box";
+        saveData.position = transform.position;
+        saveData.rotation = transform.eulerAngles.z;
+        saveData.isActive = gameObject.activeSelf;
+        saveData.color = "None";
+        return saveData;
+    }
+
+    public void LoadData(ObjectSaveData saveData)
+    {
+        transform.position = saveData.position;
+        transform.eulerAngles = new Vector3(0,0,saveData.rotation);
+        gameObject.SetActive(saveData.isActive);
     }
 }
