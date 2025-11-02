@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface ISaveable
 {
-    ObjectSaveData SaveData();
-    void LoadData(ObjectSaveData data);
+    ObjectSaveData SaveData(); // Able to use the save data easily
+    void LoadData(ObjectSaveData data); // Able to load the sava data easily
 }

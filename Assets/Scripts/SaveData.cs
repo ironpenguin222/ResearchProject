@@ -15,4 +15,7 @@ public class ObjectSaveData
     public float rotation;
     public string color;
     public bool isActive;
+    public bool isOn;
+    public float speed;
+    public Vector2 direction;
 }

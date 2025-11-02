@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public float moveSpeed = 6;
     private Vector2 movementDirection;
+    private Vector2 externalVelocity;
 
     void Start()
     {
@@ -23,7 +24,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movementDirection * moveSpeed * Time.deltaTime); // Move player
+        rb.MovePosition(rb.position + (movementDirection * moveSpeed + externalVelocity) * Time.fixedDeltaTime); // Move player
+
+        // Reset external velocity each frame
+        externalVelocity = Vector2.zero;
+    }
+
+    public void AddExternalForce(Vector2 force)
+    {
+        externalVelocity += force;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

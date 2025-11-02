@@ -52,6 +52,12 @@ public class SaveManager : MonoBehaviour
         {
             if(i < data.objectData.Count)
             {
+                ObjectSaveData objData = data.objectData[i];
+                if (objData.color == "Blue")
+                {
+                    i++;
+                    continue;
+                }
                 objects.LoadData(data.objectData[i]);
                 i++;
             }

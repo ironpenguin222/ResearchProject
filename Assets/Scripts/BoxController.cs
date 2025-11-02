@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BoxController : MonoBehaviour, ISaveable
 {
+    public string color;
     public float moveDistance = 1f; // Distance moved when pushed
     public LayerMask collisionStop; // Layers that prevent box from moving past
     private Rigidbody2D rb;
@@ -30,7 +31,7 @@ public class BoxController : MonoBehaviour, ISaveable
         saveData.position = transform.position;
         saveData.rotation = transform.eulerAngles.z;
         saveData.isActive = gameObject.activeSelf;
-        saveData.color = "None";
+        saveData.color = color;
         return saveData;
     }
 
