@@ -23,7 +23,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public void SaveGame()
+    public void SaveGame(int slotNumber)
     {
         SaveData data = new SaveData();
         data.playerPosition = player.transform.position;
@@ -33,27 +33,33 @@ public class SaveManager : MonoBehaviour
             data.objectData.Add(objects.SaveData());
         }
         string json = JsonUtility.ToJson(data);
-        PlayerPrefs.SetString("SaveData", json);
+        string saveKey = "SaveData" + slotNumber;
+        PlayerPrefs.SetString(saveKey, json);
         PlayerPrefs.Save();
-        Debug.Log(JsonUtility.ToJson(data, true));
     }
 
-    public void LoadGame() // Loads saved data
+    public void LoadGame(int slotNumber) // Loads saved data
     {
+        string saveKey = "SaveData" + slotNumber;
 
-
-        if (!PlayerPrefs.HasKey("SaveData"))
+        if (!PlayerPrefs.HasKey(saveKey))
         {
             return;
         }
 
-        string json = PlayerPrefs.GetString("SaveData");
+        string json = PlayerPrefs.GetString(saveKey);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         player.transform.position = data.playerPosition; // Sets player to saved position
 
         foreach (var objData in data.objectData) // Loop through all objects stored in savedata
         {
+            if (objData.Get("color") == "Blue")
+            {
+                continue;
+            }
+
+
             if (saveableSearch.TryGetValue(objData.id, out ISaveable saveable)) // Looks for object in scene with the ID
             {
                 Debug.Log("Loaded " + objData.id);
