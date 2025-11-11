@@ -8,11 +8,11 @@ public class BoxController : MonoBehaviour, ISaveable
     public float moveDistance = 1f; // Distance moved when pushed
     public LayerMask collisionStop; // Layers that prevent box from moving past
     private Rigidbody2D rb;
-    public string SaveID { get; set; }
+    public string SaveID { get; set; } // The ID of the object
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        SaveID = gameObject.name;
+        SaveID = gameObject.name; // Sets the object id to the gameObject's name
     }
 
     public void TryPush(Vector2 direction)
@@ -26,29 +26,29 @@ public class BoxController : MonoBehaviour, ISaveable
         }
     }
 
-    public ObjectSaveData SaveData()
+    public ObjectSaveData SaveData() // Sets up the keys with their values
     {
         ObjectSaveData data = new ObjectSaveData();
         data.id = SaveID;
         data.type = "Box";
-        data.data["posX"] = transform.position.x.ToString();
-        data.data["posY"] = transform.position.y.ToString();
-        data.data["rot"] = transform.eulerAngles.z.ToString();
-        data.data["active"] = gameObject.activeSelf.ToString();
-        data.data["color"] = color;
+        data.Set("posX", transform.position.x.ToString());
+        data.Set("posY", transform.position.y.ToString());
+        data.Set("rot", transform.eulerAngles.z.ToString());
+        data.Set("active", gameObject.activeSelf.ToString());
+        data.Set("color", color);
         return data;
     }
 
-    public void LoadData(ObjectSaveData data)
+    public void LoadData(ObjectSaveData data) // Grabs the necessary values from the keys and gives those values to boxes
     {
         Debug.Log("loading");
-        float x = float.Parse(data.data["posX"]);
-        float y = float.Parse(data.data["posY"]);
-        float rotation = float.Parse(data.data["rot"]);
+        float x = float.Parse(data.Get("posX"));
+        float y = float.Parse(data.Get("posY"));
+        float rotation = float.Parse(data.Get("rot"));
 
         transform.position = new Vector2(x,y);
         transform.eulerAngles = new Vector3(0,0,rotation);
-        gameObject.SetActive(bool.Parse(data.data["active"]));
-        color = data.data["color"];
+        gameObject.SetActive(bool.Parse(data.Get("active")));
+        color = data.Get("color");
     }
 }

@@ -11,7 +11,7 @@ public class ConveyorManager : MonoBehaviour, ISaveable
     private Rigidbody2D rb;
     public bool isOn; // Is it on? Can the player interact?
     public List<Rigidbody2D> touchingObjects = new List<Rigidbody2D>(); // All objexts touching it
-    public string SaveID { get; set; }
+    public string SaveID { get; set; } // The ID of the object 
 
     private void Awake()
     {
@@ -59,36 +59,36 @@ public class ConveyorManager : MonoBehaviour, ISaveable
         }
     }
 
-    public ObjectSaveData SaveData()
+    public ObjectSaveData SaveData() // Sets up the keys with their values
     {
         ObjectSaveData data = new ObjectSaveData();
         data.id = SaveID;
         data.type = "Conveyor";
-        data.data["posX"] = transform.position.x.ToString();
-        data.data["posY"] = transform.position.y.ToString();
-        data.data["rot"] = transform.eulerAngles.z.ToString();
-        data.data["active"] = gameObject.activeSelf.ToString();
-        data.data["color"] = color;
-        data.data["speed"] = speed.ToString();
-        data.data["dirX"] = direction.x.ToString();
-        data.data["dirY"] = direction.y.ToString();
-        data.data["isOn"] = isOn.ToString();
+        data.Set("posX", transform.position.x.ToString());
+        data.Set("posY", transform.position.y.ToString());
+        data.Set("rot", transform.eulerAngles.z.ToString());
+        data.Set("active", gameObject.activeSelf.ToString());
+        data.Set("color", color);
+        data.Set("speed", speed.ToString());
+        data.Set("dirX", direction.x.ToString());
+        data.Set("dirY", direction.y.ToString());
+        data.Set("isOn", isOn.ToString());
         return data;
     }
 
-    public void LoadData(ObjectSaveData data)
+    public void LoadData(ObjectSaveData data) // Grabs the necessary values from the keys and gives those values to boxes
     {
-        float x = float.Parse(data.data["posX"]);
-        float y = float.Parse(data.data["posY"]);
-        float rotation = float.Parse(data.data["rot"]);
+        float x = float.Parse(data.Get("posX"));
+        float y = float.Parse(data.Get("posY"));
+        float rotation = float.Parse(data.Get("rot"));
 
         transform.position = new Vector2(x, y);
         transform.eulerAngles = new Vector3(0, 0, rotation);
-        gameObject.SetActive(bool.Parse(data.data["active"]));
-        color = data.data["color"];
-        speed = float.Parse(data.data["speed"]);
-        direction = new Vector2(float.Parse(data.data["dirX"]), float.Parse(data.data["dirY"]));
-        isOn = bool.Parse(data.data["isOn"]);
+        gameObject.SetActive(bool.Parse(data.Get("active")));
+        color = data.Get("color");
+        speed = float.Parse(data.Get("speed"));
+        direction = new Vector2(float.Parse(data.Get("dirX")), float.Parse(data.Get("dirY")));
+        isOn = bool.Parse(data.Get("isOn"));
 
     }
 }

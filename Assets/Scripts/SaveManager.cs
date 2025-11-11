@@ -35,6 +35,7 @@ public class SaveManager : MonoBehaviour
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("SaveData", json);
         PlayerPrefs.Save();
+        Debug.Log(JsonUtility.ToJson(data, true));
     }
 
     public void LoadGame() // Loads saved data
@@ -49,16 +50,14 @@ public class SaveManager : MonoBehaviour
         string json = PlayerPrefs.GetString("SaveData");
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
+        player.transform.position = data.playerPosition; // Sets player to saved position
 
-
-        player.transform.position = data.playerPosition;
-
-        foreach (var objData in data.objectData)
+        foreach (var objData in data.objectData) // Loop through all objects stored in savedata
         {
-            if (saveableSearch.TryGetValue(objData.id, out ISaveable saveable))
+            if (saveableSearch.TryGetValue(objData.id, out ISaveable saveable)) // Looks for object in scene with the ID
             {
                 Debug.Log("Loaded " + objData.id);
-                saveable.LoadData(objData);
+                saveable.LoadData(objData); // Load the saved data into the scene
             }
         }
     }
