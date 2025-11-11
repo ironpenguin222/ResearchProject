@@ -7,16 +7,18 @@ public class SaveManager : MonoBehaviour
 {
     public PlayerController player;
     private List<ISaveable> saveableObjects = new List<ISaveable>();
+    private Dictionary<string, ISaveable> saveableSearch = new Dictionary<string, ISaveable>();
 
     private void Start()
     {
-        MonoBehaviour[] gameObjects = FindObjectsOfType<MonoBehaviour>(); // Grabs all objects in scene
+        MonoBehaviour[] gameObjects = FindObjectsOfType<MonoBehaviour>(true); // Grabs all objects in scene
 
-        foreach (MonoBehaviour objects in gameObjects) 
+        foreach (MonoBehaviour objects in gameObjects)
         {
             if (objects is ISaveable saveable) // Puts any object that uses Isaveable into the category
             {
                 saveableObjects.Add(saveable);
+                saveableSearch[saveable.SaveID] = saveable;
             }
         }
     }
@@ -26,7 +28,7 @@ public class SaveManager : MonoBehaviour
         SaveData data = new SaveData();
         data.playerPosition = player.transform.position;
         data.objectData.Clear();
-        foreach(ISaveable objects in saveableObjects) // Saves the data for each component
+        foreach (ISaveable objects in saveableObjects) // Saves the data for each component
         {
             data.objectData.Add(objects.SaveData());
         }
@@ -37,6 +39,8 @@ public class SaveManager : MonoBehaviour
 
     public void LoadGame() // Loads saved data
     {
+
+
         if (!PlayerPrefs.HasKey("SaveData"))
         {
             return;
@@ -45,21 +49,16 @@ public class SaveManager : MonoBehaviour
         string json = PlayerPrefs.GetString("SaveData");
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
+
+
         player.transform.position = data.playerPosition;
 
-        int i = 0;
-       foreach (ISaveable objects in saveableObjects)
+        foreach (var objData in data.objectData)
         {
-            if(i < data.objectData.Count)
+            if (saveableSearch.TryGetValue(objData.id, out ISaveable saveable))
             {
-                ObjectSaveData objData = data.objectData[i];
-                if (objData.color == "Blue")
-                {
-                    i++;
-                    continue;
-                }
-                objects.LoadData(data.objectData[i]);
-                i++;
+                Debug.Log("Loaded " + objData.id);
+                saveable.LoadData(objData);
             }
         }
     }

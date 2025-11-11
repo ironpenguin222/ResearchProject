@@ -7,15 +7,11 @@ public class SaveData
     public Vector2 playerPosition;
     public List<ObjectSaveData> objectData = new List<ObjectSaveData>();
 }
+
 [System.Serializable]
 public class ObjectSaveData
 {
+    public string id;
     public string type;
-    public Vector2 position;
-    public float rotation;
-    public string color;
-    public bool isActive;
-    public bool isOn;
-    public float speed;
-    public Vector2 direction;
+    public Dictionary<string, string> data = new Dictionary<string, string>();
 }
