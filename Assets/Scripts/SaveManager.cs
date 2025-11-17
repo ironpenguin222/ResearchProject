@@ -8,6 +8,10 @@ public class SaveManager : MonoBehaviour
     public PlayerController player;
     private List<ISaveable> saveableObjects = new List<ISaveable>();
     private Dictionary<string, ISaveable> saveableSearch = new Dictionary<string, ISaveable>();
+    private string SavePath(int slotNumber)
+    {
+        return Path.Combine(Application.persistentDataPath, $"saveSlot_{slotNumber}.json");
+    }
 
     private void Start()
     {
@@ -32,22 +36,19 @@ public class SaveManager : MonoBehaviour
         {
             data.objectData.Add(objects.SaveData());
         }
-        string json = JsonUtility.ToJson(data);
-        string saveKey = "SaveData" + slotNumber;
-        PlayerPrefs.SetString(saveKey, json);
-        PlayerPrefs.Save();
+
+        string json = JsonUtility.ToJson(data, true);
+
+        string path = SavePath(slotNumber);
+        System.IO.File.WriteAllText(path, json);
+        Debug.Log(Application.persistentDataPath);
     }
 
     public void LoadGame(int slotNumber) // Loads saved data
     {
-        string saveKey = "SaveData" + slotNumber;
+        string path = SavePath(slotNumber);
 
-        if (!PlayerPrefs.HasKey(saveKey))
-        {
-            return;
-        }
-
-        string json = PlayerPrefs.GetString(saveKey);
+        string json = File.ReadAllText(path);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         player.transform.position = data.playerPosition; // Sets player to saved position
@@ -55,9 +56,7 @@ public class SaveManager : MonoBehaviour
         foreach (var objData in data.objectData) // Loop through all objects stored in savedata
         {
             if (objData.Get("color") == "Blue")
-            {
                 continue;
-            }
 
 
             if (saveableSearch.TryGetValue(objData.id, out ISaveable saveable)) // Looks for object in scene with the ID
