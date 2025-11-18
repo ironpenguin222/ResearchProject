@@ -8,6 +8,7 @@ public class SaveManager : MonoBehaviour
     public PlayerController player;
     private List<ISaveable> saveableObjects = new List<ISaveable>();
     private Dictionary<string, ISaveable> saveableSearch = new Dictionary<string, ISaveable>();
+    public SavePrefabsManager prefabManager;
     private string SavePath(int slotNumber)
     {
         return Path.Combine(Application.persistentDataPath, $"saveSlot_{slotNumber}.json");
@@ -40,7 +41,7 @@ public class SaveManager : MonoBehaviour
         string json = JsonUtility.ToJson(data, true);
 
         string path = SavePath(slotNumber);
-        System.IO.File.WriteAllText(path, json);
+        File.WriteAllText(path, json);
         Debug.Log(Application.persistentDataPath);
     }
 
@@ -48,22 +49,49 @@ public class SaveManager : MonoBehaviour
     {
         string path = SavePath(slotNumber);
 
+        if (!File.Exists(path))
+            return;
+
         string json = File.ReadAllText(path);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         player.transform.position = data.playerPosition; // Sets player to saved position
 
-        foreach (var objData in data.objectData) // Loop through all objects stored in savedata
+        HashSet<string> existingObjects = new HashSet<string>();
+
+        foreach (var s in saveableObjects)
         {
-            if (objData.Get("color") == "Blue")
+            existingObjects.Add(s.SaveID);
+        }
+
+        foreach (var objData in data.objectData)
+        {
+            if (objData.Get("color") == "Blue") // Skip all data that uses the blue color
                 continue;
 
-
-            if (saveableSearch.TryGetValue(objData.id, out ISaveable saveable)) // Looks for object in scene with the ID
+            if (saveableSearch.TryGetValue(objData.id, out ISaveable existing)) // Loads object if it exists
             {
-                Debug.Log("Loaded " + objData.id);
-                saveable.LoadData(objData); // Load the saved data into the scene
+                existing.LoadData(objData);
+                continue;
             }
+
+            GameObject prefab = prefabManager.GetPrefab(objData.type); // Instantiates if object does not exist 
+
+            if (prefab == null)
+            {
+                Debug.LogError("None " + objData.type);
+                continue;
+            }
+
+            GameObject newObj = Instantiate(prefab);
+            ISaveable newSaveable = newObj.GetComponent<ISaveable>();
+
+            newSaveable.LoadData(objData);
+
+            saveableObjects.Add(newSaveable); // Register new spawned objects
+            saveableSearch[newSaveable.SaveID] = newSaveable;
+
+            Debug.Log("Spawned missing " + objData.id);
         }
     }
 }
