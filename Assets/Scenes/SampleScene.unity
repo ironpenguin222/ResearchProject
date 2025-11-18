@@ -655,6 +655,7 @@ MonoBehaviour:
   speed: 5
   isOn: 1
   touchingObjects: []
+  objectType: Conveyor
 --- !u!50 &295856331
 Rigidbody2D:
   serializedVersion: 4
@@ -831,6 +832,7 @@ MonoBehaviour:
   collisionStop:
     serializedVersion: 2
     m_Bits: 0
+  objectType: Box
 --- !u!50 &386402184
 Rigidbody2D:
   serializedVersion: 4
@@ -1356,6 +1358,7 @@ MonoBehaviour:
   collisionStop:
     serializedVersion: 2
     m_Bits: 0
+  objectType: Box
 --- !u!50 &668373940
 Rigidbody2D:
   serializedVersion: 4
@@ -3166,6 +3169,7 @@ MonoBehaviour:
   collisionStop:
     serializedVersion: 2
     m_Bits: 0
+  objectType: Box
 --- !u!50 &2135112018
 Rigidbody2D:
   serializedVersion: 4

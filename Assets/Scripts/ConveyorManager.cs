@@ -12,11 +12,19 @@ public class ConveyorManager : MonoBehaviour, ISaveable
     public bool isOn; // Is it on? Can the player interact?
     public List<Rigidbody2D> touchingObjects = new List<Rigidbody2D>(); // All objexts touching it
     public string SaveID { get; set; } // The ID of the object 
+    public string objectType = "Conveyor"; // The object's type
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        SaveID = gameObject.name;
+        if (string.IsNullOrEmpty(SaveID))
+            SaveID = System.Guid.NewGuid().ToString();
+        SaveHolder.Register(this);
+    }
+
+    void OnDestroy()
+    {
+        SaveHolder.Unregister(this);
     }
 
     private void FixedUpdate()

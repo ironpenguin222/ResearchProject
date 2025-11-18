@@ -14,28 +14,16 @@ public class SaveManager : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, $"saveSlot_{slotNumber}.json");
     }
 
-    private void Start()
-    {
-        MonoBehaviour[] gameObjects = FindObjectsOfType<MonoBehaviour>(true); // Grabs all objects in scene
-
-        foreach (MonoBehaviour objects in gameObjects)
-        {
-            if (objects is ISaveable saveable) // Puts any object that uses Isaveable into the category
-            {
-                saveableObjects.Add(saveable);
-                saveableSearch[saveable.SaveID] = saveable;
-            }
-        }
-    }
-
     public void SaveGame(int slotNumber)
     {
         SaveData data = new SaveData();
         data.playerPosition = player.transform.position;
-        data.objectData.Clear();
-        foreach (ISaveable objects in saveableObjects) // Saves the data for each component
+        data.objectData = new List<ObjectSaveData>();
+
+
+        foreach (var obj in SaveHolder.objects.Values) // Saves the data for each component
         {
-            data.objectData.Add(objects.SaveData());
+            data.objectData.Add(obj.SaveData());
         }
 
         string json = JsonUtility.ToJson(data, true);
@@ -57,41 +45,52 @@ public class SaveManager : MonoBehaviour
 
         player.transform.position = data.playerPosition; // Sets player to saved position
 
-        HashSet<string> existingObjects = new HashSet<string>();
+        List<GameObject> toDestroy = new List<GameObject>();
 
-        foreach (var s in saveableObjects)
+        foreach (var obj in SaveHolder.objects.Values)
         {
-            existingObjects.Add(s.SaveID);
+            MonoBehaviour allObjects = obj as MonoBehaviour; // Finds all objects
+            if (allObjects != null)
+            {
+                ISaveable saveable = allObjects.GetComponent<ISaveable>();
+                var saved = saveable.SaveData();
+                if (saved.Get("color") == "Blue") // Skip killing it if this is a blue object
+                    continue;
+
+                toDestroy.Add(allObjects.gameObject); // Objects that need to go
+            }
         }
+
+        SaveHolder.objects.Clear();
+
+        foreach (GameObject destObject in toDestroy)
+        {
+            if (destObject != null)
+                Destroy(destObject); // Destroys objects to reload
+        }
+
 
         foreach (var objData in data.objectData)
         {
-            if (objData.Get("color") == "Blue") // Skip all data that uses the blue color
-                continue;
-
-            if (saveableSearch.TryGetValue(objData.id, out ISaveable existing)) // Loads object if it exists
+            if (objData.Get("color") == "Blue") // Skip skip
             {
-                existing.LoadData(objData);
                 continue;
             }
-
-            GameObject prefab = prefabManager.GetPrefab(objData.type); // Instantiates if object does not exist 
-
+            GameObject prefab = prefabManager.GetPrefab(objData.type); // Data type to load prefab for
             if (prefab == null)
             {
-                Debug.LogError("None " + objData.type);
+                Debug.LogError("Missing prefab " + objData.type);
                 continue;
             }
 
-            GameObject newObj = Instantiate(prefab);
-            ISaveable newSaveable = newObj.GetComponent<ISaveable>();
+            GameObject newObj = Instantiate(prefab); // Instantiates new objects to be objects in scene
+            ISaveable saveable = newObj.GetComponent<ISaveable>(); // Adds ISaveable
 
-            newSaveable.LoadData(objData);
 
-            saveableObjects.Add(newSaveable); // Register new spawned objects
-            saveableSearch[newSaveable.SaveID] = newSaveable;
-
-            Debug.Log("Spawned missing " + objData.id);
+            saveable.LoadData(objData); // Loads the object data
         }
+
+        Debug.Log("Game loaded.");
     }
-}
+    }
+

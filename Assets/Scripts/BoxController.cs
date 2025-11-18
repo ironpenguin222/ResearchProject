@@ -9,10 +9,18 @@ public class BoxController : MonoBehaviour, ISaveable
     public LayerMask collisionStop; // Layers that prevent box from moving past
     private Rigidbody2D rb;
     public string SaveID { get; set; } // The ID of the object
+    public string objectType = "Box"; // The object's type
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        SaveID = gameObject.name; // Sets the object id to the gameObject's name
+        if (string.IsNullOrEmpty(SaveID))
+            SaveID = System.Guid.NewGuid().ToString();
+        SaveHolder.Register(this);
+    }
+
+    void OnDestroy()
+    { 
+        SaveHolder.Unregister(this);
     }
 
     public void TryPush(Vector2 direction)
