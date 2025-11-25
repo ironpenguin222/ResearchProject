@@ -34,6 +34,7 @@ public class SaveManager : MonoBehaviour
         data.playerPosition = player.transform.position;
         data.objectData = new List<ObjectSaveData>();
 
+
         foreach (var obj in SaveHolder.objects.Values)  // Saves the data for each component
         {
             var dataForObj = obj.SaveData();
