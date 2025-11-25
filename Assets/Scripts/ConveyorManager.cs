@@ -13,9 +13,10 @@ public class ConveyorManager : MonoBehaviour, ISaveable
     public List<Rigidbody2D> touchingObjects = new List<Rigidbody2D>(); // All objexts touching it
     public string SaveID { get; set; } // The ID of the object 
     public string objectType = "Conveyor"; // The object's type
-
+    private SpriteRenderer sr;
     private void Awake()
     {
+        sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         if (string.IsNullOrEmpty(SaveID))
             SaveID = System.Guid.NewGuid().ToString();
@@ -67,6 +68,22 @@ public class ConveyorManager : MonoBehaviour, ISaveable
         }
     }
 
+    private void ApplyColor()
+    {
+        if (string.IsNullOrEmpty(color)) // Makes white if there is no color
+        {
+            sr.color = Color.white;
+            return;
+        }
+
+        if (color == "Blue")
+            sr.color = Color.blue; // Makes blue if its blue
+        else if (color == "Green")
+            sr.color = Color.green; // makes green if its green
+        else
+            sr.color = Color.white; // Fallback thing
+    }
+
     public ObjectSaveData SaveData() // Sets up the keys with their values
     {
         ObjectSaveData data = new ObjectSaveData();
@@ -97,6 +114,6 @@ public class ConveyorManager : MonoBehaviour, ISaveable
         speed = float.Parse(data.Get("speed"));
         direction = new Vector2(float.Parse(data.Get("dirX")), float.Parse(data.Get("dirY")));
         isOn = bool.Parse(data.Get("isOn"));
-
+        ApplyColor();
     }
 }

@@ -8,11 +8,13 @@ public class BoxController : MonoBehaviour, ISaveable
     public float moveDistance = 1f; // Distance moved when pushed
     public LayerMask collisionStop; // Layers that prevent box from moving past
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
     public string SaveID { get; set; } // The ID of the object
     public string objectType = "Box"; // The object's type
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         if (string.IsNullOrEmpty(SaveID))
             SaveID = System.Guid.NewGuid().ToString();
         SaveHolder.Register(this);
@@ -46,6 +48,21 @@ public class BoxController : MonoBehaviour, ISaveable
         data.Set("color", color);
         return data;
     }
+    private void ApplyColor()
+    { 
+        if (string.IsNullOrEmpty(color)) // Makes white if there is no color
+        {
+            sr.color = Color.white;
+            return;
+        }
+
+        if (color == "Blue")
+            sr.color = Color.blue; // Makes blue if its blue
+        else if (color == "Green")
+            sr.color = Color.green; // makes green if its green
+        else
+            sr.color = Color.white; // Fallback thing
+    }
 
     public void LoadData(ObjectSaveData data) // Grabs the necessary values from the keys and gives those values to boxes
     {
@@ -58,5 +75,6 @@ public class BoxController : MonoBehaviour, ISaveable
         transform.eulerAngles = new Vector3(0,0,rotation);
         gameObject.SetActive(bool.Parse(data.Get("active")));
         color = data.Get("color");
+        ApplyColor();
     }
 }

@@ -14,16 +14,35 @@ public class SaveManager : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, $"saveSlot_{slotNumber}.json");
     }
 
+    private bool IsColorAllowed(string color, int slotNumber)
+    {
+        if (string.IsNullOrEmpty(color)) // Always let colorless save/load
+            return true;
+
+        if (slotNumber == 1)
+            return color == "Green"; // Slot 1 = Green allowed
+
+        if (slotNumber == 2)
+            return color == "Blue"; // Slot 2 = Blue allowed
+
+        return true;
+    }
+
     public void SaveGame(int slotNumber)
     {
         SaveData data = new SaveData();
         data.playerPosition = player.transform.position;
         data.objectData = new List<ObjectSaveData>();
 
-
-        foreach (var obj in SaveHolder.objects.Values) // Saves the data for each component
+        foreach (var obj in SaveHolder.objects.Values)  // Saves the data for each component
         {
-            data.objectData.Add(obj.SaveData());
+            var dataForObj = obj.SaveData();
+            string color = dataForObj.Get("color");
+
+            if (!IsColorAllowed(color, slotNumber))
+                continue;
+
+            data.objectData.Add(dataForObj);
         }
 
         string json = JsonUtility.ToJson(data, true);
@@ -50,32 +69,27 @@ public class SaveManager : MonoBehaviour
         foreach (var obj in SaveHolder.objects.Values)
         {
             MonoBehaviour allObjects = obj as MonoBehaviour; // Finds all objects
-            if (allObjects != null)
-            {
-                ISaveable saveable = allObjects.GetComponent<ISaveable>();
-                var saved = saveable.SaveData();
-                if (saved.Get("color") == "Blue") // Skip killing it if this is a blue object
-                    continue;
-
-                toDestroy.Add(allObjects.gameObject); // Objects that need to go
-            }
+            if (allObjects == null)
+                continue;
+            ISaveable saveable = allObjects.GetComponent<ISaveable>();
+            var saved = saveable.SaveData();
+            string color = saved.Get("color");
+            if (IsColorAllowed(color, slotNumber)) // Adds objects that need to go
+                toDestroy.Add(allObjects.gameObject);
         }
 
-        SaveHolder.objects.Clear();
-
-        foreach (GameObject destObject in toDestroy)
+        foreach (GameObject g in toDestroy)
         {
-            if (destObject != null)
-                Destroy(destObject); // Destroys objects to reload
+            SaveHolder.Unregister(g.GetComponent<ISaveable>());
+            Destroy(g);
         }
 
 
         foreach (var objData in data.objectData)
         {
-            if (objData.Get("color") == "Blue") // Skip skip
-            {
+            if (!IsColorAllowed(objData.Get("color"), slotNumber)) // Skip Skip
                 continue;
-            }
+
             GameObject prefab = prefabManager.GetPrefab(objData.type); // Data type to load prefab for
             if (prefab == null)
             {
@@ -88,6 +102,7 @@ public class SaveManager : MonoBehaviour
 
 
             saveable.LoadData(objData); // Loads the object data
+            SaveHolder.Register(saveable);
         }
 
         Debug.Log("Game loaded.");
