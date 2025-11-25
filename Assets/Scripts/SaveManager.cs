@@ -48,7 +48,15 @@ public class SaveManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(data, true);
 
-        string path = SavePath(slotNumber);
+        string path = SavePath(slotNumber); 
+        try
+        {
+            File.WriteAllText(path, json);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Failed to save: " + ex.Message);
+        }
         File.WriteAllText(path, json);
         Debug.Log(Application.persistentDataPath);
     }

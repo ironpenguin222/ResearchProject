@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Box
   - Blue
+  - Interact
   layers:
   - Default
   - TransparentFX
