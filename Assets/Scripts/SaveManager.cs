@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
+using System.Text;
+using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class SaveManager : MonoBehaviour
     public SavePrefabsManager prefabManager;
     private string SavePath(int slotNumber)
     {
-        return Path.Combine(Application.persistentDataPath, $"saveSlot_{slotNumber}.json");
+        return Path.Combine(Application.persistentDataPath, slotNumber.ToString());
     }
 
     private bool IsColorAllowed(string color, int slotNumber)
@@ -20,7 +21,7 @@ public class SaveManager : MonoBehaviour
             return true;
 
         if (slotNumber == 1)
-            return color == "Green"; // Slot 1 = Green allowed
+            return color == "Green"; //  Green allowed
 
         if (slotNumber == 2)
             return color == "Blue"; // Slot 2 = Blue allowed
