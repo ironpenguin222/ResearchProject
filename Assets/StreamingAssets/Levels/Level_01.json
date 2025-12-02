@@ -1,0 +1,184 @@
+{
+    "playerPosition": {
+        "x": -5.059999942779541,
+        "y": -2.619999885559082
+    },
+    "objectData": [
+        {
+            "id": "c4cde029-5ae2-4428-b280-504a6fc4a9de",
+            "type": "Button",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-6.92"
+                },
+                {
+                    "key": "posY",
+                    "value": "-0.58"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "pressed",
+                    "value": "False"
+                },
+                {
+                    "key": "conveyorIndex",
+                    "value": "0"
+                }
+            ]
+        },
+        {
+            "id": "d25dad34-f975-4aa8-b710-3c53dccd1e37",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-2.29"
+                },
+                {
+                    "key": "posY",
+                    "value": "-1.45"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "id": "0ada0d5c-bfad-40b8-b971-49141ede1f14",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-2.97"
+                },
+                {
+                    "key": "posY",
+                    "value": "1.7"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "id": "6fde9200-1b4a-4e95-8445-213503007d9e",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "1.47"
+                },
+                {
+                    "key": "posY",
+                    "value": "0.8"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": "Blue"
+                }
+            ]
+        },
+        {
+            "id": "514f4465-717e-413b-abb5-c4f56f6d89a5",
+            "type": "Conveyor",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-5.74"
+                },
+                {
+                    "key": "posY",
+                    "value": "0.62"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": ""
+                },
+                {
+                    "key": "speed",
+                    "value": "5"
+                },
+                {
+                    "key": "dirX",
+                    "value": "1"
+                },
+                {
+                    "key": "dirY",
+                    "value": "0"
+                },
+                {
+                    "key": "isOn",
+                    "value": "True"
+                }
+            ]
+        },
+        {
+            "id": "824d747d-ff56-40e2-afbc-a5324cf25f37",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-0.28"
+                },
+                {
+                    "key": "posY",
+                    "value": "-3.56"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": "Green"
+                }
+            ]
+        }
+    ]
+}

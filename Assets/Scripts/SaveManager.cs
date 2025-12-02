@@ -63,9 +63,18 @@ public class SaveManager : MonoBehaviour
         Debug.Log(Application.persistentDataPath);
     }
 
-    public void LoadGame(int slotNumber) // Loads saved data
+    public void LoadGame(int slotNumber, string levelName = "") // Loads saved data
     {
-        string path = SavePath(slotNumber);
+        string path;
+
+        if (slotNumber == -1)
+        {
+            path = Path.Combine(Application.streamingAssetsPath, "Levels", levelName + ".json");
+        }
+        else
+        {
+            path = SavePath(slotNumber);
+        }
 
         if (!File.Exists(path))
             return;
@@ -87,7 +96,10 @@ public class SaveManager : MonoBehaviour
             var saved = saveable.SaveData();
             string color = saved.Get("color");
 
-            if (IsColorAllowed(color, slotNumber)) // Adds objects that need to go
+            if (slotNumber != -1 && IsColorAllowed(color, slotNumber))
+                toPool.Add(allObjects.gameObject);
+
+            if (slotNumber == -1)
                 toPool.Add(allObjects.gameObject);
         }
 
@@ -101,7 +113,7 @@ public class SaveManager : MonoBehaviour
 
         foreach (var objData in data.objectData)
         {
-            if (!IsColorAllowed(objData.Get("color"), slotNumber)) // Skip Skip
+            if (slotNumber != -1 && !IsColorAllowed(objData.Get("color"), slotNumber))
                 continue;
 
             GameObject prefab = prefabManager.GetPrefab(objData.type); // Data type to load prefab for
