@@ -1,11 +1,41 @@
 {
     "playerPosition": {
-        "x": -5.059999942779541,
-        "y": -2.619999885559082
+        "x": -4.649718761444092,
+        "y": 1.4288794994354249
     },
     "objectData": [
         {
-            "id": "c4cde029-5ae2-4428-b280-504a6fc4a9de",
+            "id": "deaa4ec2-d11c-4852-a13e-8b79e426e07e",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-0.29"
+                },
+                {
+                    "key": "posY",
+                    "value": "1.55"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": ""
+                },
+                {
+                    "key": "pushable",
+                    "value": "False"
+                }
+            ]
+        },
+        {
+            "id": "96219d48-657c-48d0-9217-fbf843c961e6",
             "type": "Button",
             "data": [
                 {
@@ -35,16 +65,16 @@
             ]
         },
         {
-            "id": "d25dad34-f975-4aa8-b710-3c53dccd1e37",
+            "id": "f8af28a6-7b3e-4ad8-b4ac-570b1ac41316",
             "type": "Box",
             "data": [
                 {
                     "key": "posX",
-                    "value": "-2.29"
+                    "value": "2.124214"
                 },
                 {
                     "key": "posY",
-                    "value": "-1.45"
+                    "value": "-2.864214"
                 },
                 {
                     "key": "rot",
@@ -57,16 +87,20 @@
                 {
                     "key": "color",
                     "value": ""
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         },
         {
-            "id": "0ada0d5c-bfad-40b8-b971-49141ede1f14",
+            "id": "d1dc6c53-d784-473f-9783-45401fb60533",
             "type": "Box",
             "data": [
                 {
                     "key": "posX",
-                    "value": "-2.97"
+                    "value": "-5.97"
                 },
                 {
                     "key": "posY",
@@ -83,20 +117,24 @@
                 {
                     "key": "color",
                     "value": ""
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         },
         {
-            "id": "6fde9200-1b4a-4e95-8445-213503007d9e",
+            "id": "5bc1e199-b3ae-455f-b7ae-541c609fa650",
             "type": "Box",
             "data": [
                 {
                     "key": "posX",
-                    "value": "1.47"
+                    "value": "0.7628933"
                 },
                 {
                     "key": "posY",
-                    "value": "0.8"
+                    "value": "2.507107"
                 },
                 {
                     "key": "rot",
@@ -109,11 +147,15 @@
                 {
                     "key": "color",
                     "value": "Blue"
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         },
         {
-            "id": "514f4465-717e-413b-abb5-c4f56f6d89a5",
+            "id": "854018e9-2f22-4da4-8ebd-a3d865d6a8bb",
             "type": "Conveyor",
             "data": [
                 {
@@ -155,16 +197,16 @@
             ]
         },
         {
-            "id": "824d747d-ff56-40e2-afbc-a5324cf25f37",
+            "id": "208b375a-fd63-498c-8e27-193db89f9777",
             "type": "Box",
             "data": [
                 {
                     "key": "posX",
-                    "value": "-0.28"
+                    "value": "0.4271068"
                 },
                 {
                     "key": "posY",
-                    "value": "-3.56"
+                    "value": "-4.267107"
                 },
                 {
                     "key": "rot",
@@ -177,6 +219,10 @@
                 {
                     "key": "color",
                     "value": "Green"
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         }

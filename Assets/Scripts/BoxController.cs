@@ -6,6 +6,7 @@ public class BoxController : MonoBehaviour, ISaveable
 {
     public string color;
     public float moveDistance = 1f; // Distance moved when pushed
+    public bool pushable;
     public LayerMask collisionStop; // Layers that prevent box from moving past
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -27,12 +28,15 @@ public class BoxController : MonoBehaviour, ISaveable
 
     public void TryPush(Vector2 direction)
     {
+        if (pushable)
+        {
             direction = direction.normalized;
             Vector2 posToGo = rb.position + direction * moveDistance; // Finds the location it should move to
-        RaycastHit2D moveHit = Physics2D.Raycast(rb.position, direction, moveDistance, collisionStop); // Checks if its going to be moving into something it shouldn't
-        if(moveHit.collider == null)
-        {
-            rb.MovePosition(posToGo); // Moves it
+            RaycastHit2D moveHit = Physics2D.Raycast(rb.position, direction, moveDistance, collisionStop); // Checks if its going to be moving into something it shouldn't
+            if (moveHit.collider == null)
+            {
+                rb.MovePosition(posToGo); // Moves it
+            }
         }
     }
 
@@ -46,6 +50,7 @@ public class BoxController : MonoBehaviour, ISaveable
         data.Set("rot", transform.eulerAngles.z.ToString());
         data.Set("active", gameObject.activeSelf.ToString());
         data.Set("color", color);
+        data.Set("pushable", pushable.ToString());
         return data;
     }
     private void ApplyColor()
@@ -74,6 +79,7 @@ public class BoxController : MonoBehaviour, ISaveable
         transform.position = new Vector2(x,y);
         transform.eulerAngles = new Vector3(0,0,rotation);
         gameObject.SetActive(bool.Parse(data.Get("active")));
+        pushable = bool.Parse(data.Get("pushable"));
         color = data.Get("color");
         ApplyColor();
     }

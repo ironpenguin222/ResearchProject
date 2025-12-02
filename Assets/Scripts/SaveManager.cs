@@ -16,6 +16,15 @@ public class SaveManager : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, slotNumber.ToString());
     }
 
+    public void Start()
+    {
+        string target = PlayerPrefs.GetString("TargetLevel", "");
+        if (!string.IsNullOrEmpty(target))
+        {
+            LoadGame(-1, target);
+        }
+    }
+
     private bool IsColorAllowed(string color, int slotNumber)
     {
         if (string.IsNullOrEmpty(color)) // Always let colorless save/load
@@ -63,8 +72,14 @@ public class SaveManager : MonoBehaviour
         Debug.Log(Application.persistentDataPath);
     }
 
+    public void LoadingGame(int slotNumber)
+    {
+        LoadGame(slotNumber, "");
+    }
+
     public void LoadGame(int slotNumber, string levelName = "") // Loads saved data
     {
+        Debug.Log("bup");
         string path;
 
         if (slotNumber == -1)

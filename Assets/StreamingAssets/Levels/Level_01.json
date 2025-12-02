@@ -1,11 +1,71 @@
 {
     "playerPosition": {
-        "x": -5.059999942779541,
-        "y": -2.619999885559082
+        "x": -5.849087238311768,
+        "y": -0.4713836908340454
     },
     "objectData": [
         {
-            "id": "c4cde029-5ae2-4428-b280-504a6fc4a9de",
+            "id": "fdc1ddfa-3144-485d-b83f-e2541b66bd20",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-0.29"
+                },
+                {
+                    "key": "posY",
+                    "value": "1.55"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": ""
+                },
+                {
+                    "key": "pushable",
+                    "value": "False"
+                }
+            ]
+        },
+        {
+            "id": "af1fc122-a2a4-4508-a99b-ead6ab67727b",
+            "type": "Box",
+            "data": [
+                {
+                    "key": "posX",
+                    "value": "-2.29"
+                },
+                {
+                    "key": "posY",
+                    "value": "-1.45"
+                },
+                {
+                    "key": "rot",
+                    "value": "0"
+                },
+                {
+                    "key": "active",
+                    "value": "True"
+                },
+                {
+                    "key": "color",
+                    "value": ""
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
+                }
+            ]
+        },
+        {
+            "id": "f940f4ff-06ee-4097-9889-e606d0b87b4a",
             "type": "Button",
             "data": [
                 {
@@ -30,38 +90,12 @@
                 },
                 {
                     "key": "conveyorIndex",
-                    "value": "0"
+                    "value": "-1"
                 }
             ]
         },
         {
-            "id": "d25dad34-f975-4aa8-b710-3c53dccd1e37",
-            "type": "Box",
-            "data": [
-                {
-                    "key": "posX",
-                    "value": "-2.29"
-                },
-                {
-                    "key": "posY",
-                    "value": "-1.45"
-                },
-                {
-                    "key": "rot",
-                    "value": "0"
-                },
-                {
-                    "key": "active",
-                    "value": "True"
-                },
-                {
-                    "key": "color",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "id": "0ada0d5c-bfad-40b8-b971-49141ede1f14",
+            "id": "b51fecb0-13f7-4380-8dd8-62dd5bcafc4a",
             "type": "Box",
             "data": [
                 {
@@ -83,11 +117,15 @@
                 {
                     "key": "color",
                     "value": ""
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         },
         {
-            "id": "6fde9200-1b4a-4e95-8445-213503007d9e",
+            "id": "3c257606-27f5-49db-95c7-8367bdcb54f4",
             "type": "Box",
             "data": [
                 {
@@ -109,11 +147,15 @@
                 {
                     "key": "color",
                     "value": "Blue"
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         },
         {
-            "id": "514f4465-717e-413b-abb5-c4f56f6d89a5",
+            "id": "fbda248f-060a-4c4b-b898-bcc2b65610fa",
             "type": "Conveyor",
             "data": [
                 {
@@ -155,7 +197,7 @@
             ]
         },
         {
-            "id": "824d747d-ff56-40e2-afbc-a5324cf25f37",
+            "id": "74d36b4b-662f-406f-afd6-bd0819d53020",
             "type": "Box",
             "data": [
                 {
@@ -177,6 +219,10 @@
                 {
                     "key": "color",
                     "value": "Green"
+                },
+                {
+                    "key": "pushable",
+                    "value": "True"
                 }
             ]
         }
