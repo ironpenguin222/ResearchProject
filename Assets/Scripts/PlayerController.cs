@@ -37,11 +37,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("Box") || collision.collider.CompareTag("Blue"))
-        {
-            Vector2 pushDirection = movementDirection;
-            BoxController box = collision.collider.GetComponent<BoxController>();
-            box.TryPush(pushDirection);
-        }
+        BoxController box = collision.collider.GetComponent<BoxController>();
+        if (box == null)
+            return;
+
+        Vector2 pushDirection = movementDirection;
+        box.TryPush(pushDirection);
     }
 }

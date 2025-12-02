@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8871879813100384853}
   - component: {fileID: 6347717805338782736}
   - component: {fileID: 6576173326495322091}
-  - component: {fileID: 552190228214606239}
+  - component: {fileID: 4344923631596883475}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -159,7 +159,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &552190228214606239
+--- !u!114 &4344923631596883475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,11 +168,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3022191803367200108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4079f0c748a8f8a40bcb2449748f16c0, type: 3}
+  m_Script: {fileID: 11500000, guid: abc8df636dbe9384c97c6c9f731d13c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   connectedConveyor: {fileID: 0}
-  interactPrompt: {fileID: 0}
-  playerNearby: 0
-  pressed: 0
   objectType: Button
+  pressed: 0

@@ -124,6 +124,7 @@ public class SaveManager : MonoBehaviour
             SaveHolder.Unregister(saveable);
             string type = saveable.SaveData().type;
             poolManager.Return(type, g); // Returns objects to pool instead of destroying
+
         }
 
         foreach (var objData in data.objectData)
