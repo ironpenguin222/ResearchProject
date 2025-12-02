@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: 246920662}
   - component: {fileID: 246920661}
   - component: {fileID: 246920663}
+  - component: {fileID: 246920664}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -720,6 +721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1124517604}
   prefabManager: {fileID: 246920663}
+  poolManager: {fileID: 246920664}
 --- !u!4 &246920662
 Transform:
   m_ObjectHideFlags: 0
@@ -754,6 +756,18 @@ MonoBehaviour:
     prefab: {fileID: 4423774510924995511, guid: 5abbe5b004fd7d240a9534945133b488, type: 3}
   - type: Button
     prefab: {fileID: 3022191803367200108, guid: a9e73ee957e08974abb71c8edc918a46, type: 3}
+--- !u!114 &246920664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246920660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70bba0e55d341844acb580e48bafc6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &386402182
 GameObject:
   m_ObjectHideFlags: 0

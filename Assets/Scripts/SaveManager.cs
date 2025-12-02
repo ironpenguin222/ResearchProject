@@ -10,6 +10,7 @@ public class SaveManager : MonoBehaviour
     private List<ISaveable> saveableObjects = new List<ISaveable>();
     private Dictionary<string, ISaveable> saveableSearch = new Dictionary<string, ISaveable>();
     public SavePrefabsManager prefabManager;
+    public PoolManager poolManager;
     private string SavePath(int slotNumber)
     {
         return Path.Combine(Application.persistentDataPath, slotNumber.ToString());
@@ -74,26 +75,29 @@ public class SaveManager : MonoBehaviour
 
         player.transform.position = data.playerPosition; // Sets player to saved position
 
-        List<GameObject> toDestroy = new List<GameObject>();
+        List<GameObject> toPool = new List<GameObject>();
 
         foreach (var obj in SaveHolder.objects.Values)
         {
             MonoBehaviour allObjects = obj as MonoBehaviour; // Finds all objects
             if (allObjects == null)
                 continue;
+
             ISaveable saveable = allObjects.GetComponent<ISaveable>();
             var saved = saveable.SaveData();
             string color = saved.Get("color");
+
             if (IsColorAllowed(color, slotNumber)) // Adds objects that need to go
-                toDestroy.Add(allObjects.gameObject);
+                toPool.Add(allObjects.gameObject);
         }
 
-        foreach (GameObject g in toDestroy)
+        foreach (GameObject g in toPool)
         {
-            SaveHolder.Unregister(g.GetComponent<ISaveable>());
-            Destroy(g);
+            ISaveable saveable = g.GetComponent<ISaveable>();
+            SaveHolder.Unregister(saveable);
+            string type = saveable.SaveData().type;
+            poolManager.Return(type, g); // Returns objects to pool instead of destroying
         }
-
 
         foreach (var objData in data.objectData)
         {
@@ -107,9 +111,8 @@ public class SaveManager : MonoBehaviour
                 continue;
             }
 
-            GameObject newObj = Instantiate(prefab); // Instantiates new objects to be objects in scene
+            GameObject newObj = poolManager.Get(objData.type, prefab); // Reuses pooled object or instantiates new one
             ISaveable saveable = newObj.GetComponent<ISaveable>(); // Adds ISaveable
-
 
             saveable.LoadData(objData); // Loads the object data
             SaveHolder.Register(saveable);
@@ -117,5 +120,5 @@ public class SaveManager : MonoBehaviour
 
         Debug.Log("Game loaded.");
     }
-    }
+}
 
