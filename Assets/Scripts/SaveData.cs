@@ -14,27 +14,47 @@ public class ObjectSaveData
     public string id; // Object id (name)
     public string type; // Object type (Ie: Box, Conveyor for now since those are the ones I got)
     public List<KeyValue> data = new List<KeyValue>(); // data stored into as names/properties
+    private Dictionary<string, string> dataDictionary; // dictionary to store data
+
+    private void CheckDictionary()
+    {
+        if (dataDictionary != null) return;
+
+        dataDictionary = new Dictionary<string, string>();
+        foreach (var kv in data)
+            dataDictionary[kv.key] = kv.value;
+    }
+
 
     // Set key value, it it exists it should update, otherwise it should make a new one
     public void Set(string key, string value)
     {
-        var kv = data.Find(x => x.key == key);
-        if (kv != null) kv.value = value;
-        else data.Add(new KeyValue { key = key, value = value }); // Add new pair
+        CheckDictionary();
+
+        // Update runtime dictionary
+        dataDictionary[key] = value;
+
+        // Sync changes back to serializable list
+        bool found = false;
+        for (int i = 0; i < data.Count; i++)
+        {
+            if (data[i].key == key)
+            {
+                data[i].value = value;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            data.Add(new KeyValue { key = key, value = value });
     }
 
     // Retrive the value for a key
     public string Get(string key)
     {
-        var kv = data.Find(x => x.key == key);
-        if (kv != null)
-        {
-            return kv.value; // Return value
-        }
-        else
-        {
-            return null; // If it doesn't exist then its null
-        }
+        CheckDictionary();
+        return dataDictionary.TryGetValue(key, out string value) ? value : null;
     }
 }
 
